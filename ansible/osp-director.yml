@@ -1,0 +1,6 @@
+---
+- hosts: all
+  connection: ssh
+  roles:
+    - etc-hosts
+    - osp-director
