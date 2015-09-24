@@ -48,6 +48,8 @@ correct_selinux_context () {
 
 # set password for development
 virt-customize -a overcloud-full.qcow2 --root-password password:cisco123
+virt-customize --selinux-relabel -a overcloud-full.qcow2 --run-command "sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config"
+virt-customize --selinux-relabel -a overcloud-full.qcow2 --run-command "sed -i 's/PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config"
 
 # now patch the image with RPMs
 for rpm_url in ${RPM_URLS[*]}
