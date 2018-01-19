@@ -44,9 +44,9 @@
 
 - name: Upgrade RHEL
   shell: >
-    subscription-manager register --username=gleboude@redhat.com --password=@Zou_REDHAT;
+    subscription-manager register --username=sdasu  --password=CiscoDCI2018;
     subscription-manager register;
-    subscription-manager attach --pool 8a85f981568e999d01568ed222cd6712;
+    subscription-manager attach --pool 8a85f98c60c5e69f0160c6c9e6da0e81;
     subscription-manager repos '--disable=*' --enable=rhel-7-server-rpms --enable=rhel-7-server-optional-rpms --enable=rhel-7-server-extras-rpms;
 
 - name: Setup Yum Partner Repos
