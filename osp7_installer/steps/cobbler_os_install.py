@@ -34,6 +34,7 @@ class CobblerOSInstallStep(step.Step):
         server.sync(token)
 
         # reboot
+        #import pdb; pdb.set_trace()
         system_handle = server.get_system_handle(director_node, token)
         server.power_system(system_handle, "reboot", token)
         server.sync(token)

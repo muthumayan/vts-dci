@@ -18,6 +18,7 @@ class SwitchConfigStep(step.Step):
     def execute(self, kargs):
         """Configures switch ports with some basic defaults, used by the under and overclouds."""
 
+        #import pdb; pdb.set_trace()
         connection = manager.connect(host=kargs["switch_ssh_ip_address"],
                                      port=kargs["switch_ssh_port"],
                                      username=kargs["switch_username"],
