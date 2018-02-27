@@ -72,37 +72,21 @@ virt-customize --selinux-relabel -a overcloud-full.qcow2 --run-command "patch -f
 
 
 ## first udpate all the openstack RPMs
-#virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager register --user={{ rhel_username }} --password={{ rhel_password }}'
-#virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager attach --pool={{ rhel_pool }}'
-#virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager repos --disable=*'
-#virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager repos --enable=rhel-7-server-openstack-7.0-rpms'
-#virt-customize -a overcloud-full.qcow2 --run-command 'yum makecache'
-#virt-customize -a overcloud-full.qcow2 --run-command 'yum update -y'
-#virt-customize -a overcloud-full.qcow2 --run-command 'yum clean all'
-
-# Temp fix to pull down networking-cisco - SD
-#virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager register --user=sdasu --password=CiscoDCI2018'
-#virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager attach --pool=8a85f98c60c5e69f0160c6c9e6da0e81'
-#virt-customize -a overcloud-full.qcow2 --run-command 'sudo yum install -y python-networking-cisco'
-
-virt-customize \
-   --memsize 2000 \
-   --add overcloud-full.qcow2 \
-   --sm-credentials "sdasu:password:CiscoDCI2018" \
-   --sm-register \
-   --sm-attach "pool:8a85f98c60c5e69f0160c6c9e6da0e81" \
-   --run-command "subscription-manager repos --disable='*' --enable='rhel-7-server-openstack-11.0-rpms'" \
-   --install python-networking-cisco \
-   --sm-remove \
-   --sm-unregister 
-#   --selinux-relabel 2>&1 | tee -a ~/pilot/customize_image.log
+virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager register --user={{ rhel_username }} --password={{ rhel_password }}'
+virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager attach --pool={{ rhel_pool }}'
+virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager repos --disable=*'
+virt-customize -a overcloud-full.qcow2 --run-command 'subscription-manager repos --enable=rhel-7-server-openstack-11-rpms'
+virt-customize -a overcloud-full.qcow2 --run-command 'yum makecache'
+virt-customize -a overcloud-full.qcow2 --run-command 'yum update -y'
+virt-customize -a overcloud-full.qcow2 --run-command 'yum clean all'
+virt-customize -a overcloud-full.qcow2 --run-command 'yum install -y python-networking-cisco'
 
 #virt-customize -a overcloud-full.qcow2 --run-command 'cd /tmp/net-cisco'
 #virt-customize -a overcloud-full.qcow2 --run-command 'python setup.py install'
 
 # correct SELinux security context
 #SD - not sure if this is required.
-sudo yum install -y python-networking-cisco
+#sudo yum install -y python-networking-cisco
 correct_selinux_context '/usr/lib/python2.7/site-packages/neutron' '/usr/lib/python2.7/site-packages/networking_cisco*'
 correct_selinux_context '/usr/lib/python2.7/site-packages/neutron' '/usr/lib64/python2.7/site-packages/lxml*'
 correct_selinux_context '/usr/lib/python2.7/site-packages/neutron' '/usr/lib/python2.7/site-packages/UcsSdk*'
