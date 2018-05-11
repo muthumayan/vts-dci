@@ -30,7 +30,7 @@
 - name:  Write environment files
   template: src={{ item.template_file }} dest=/home/stack/templates/{{ item.template_file }} owner=stack group=stack
   with_items:
-    - { template_file: 'networking-cisco-environment.yaml' }
+    - { template_file: 'networking-environment.yaml' }
     - { template_file: 'nfs-environment.yaml' }
 
 - name:  Write deploy_overcloud.sh

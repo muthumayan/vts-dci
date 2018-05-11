@@ -1,0 +1,49 @@
+# This template configures each role to use Vlans on a single nic for
+# each isolated network.
+# This template assumes use of network-isolation.yaml.
+#
+# FIXME: if/when we add functionality to heatclient to include heat
+# environment files we should think about using it here to automatically
+# include network-isolation.yaml.
+resource_registry:
+  OS::TripleO::Compute::Net::SoftwareConfig: /home/stack/templates/nic-configs/compute.yaml
+  OS::TripleO::Controller::Net::SoftwareConfig: /home/stack/templates/nic-configs/controller.yaml
+  OS::TripleO::BlockStorage::Net::SoftwareConfig: /home/stack/templates/nic-configs/cinder-storage.yaml
+  OS::TripleO::ObjectStorage::Net::SoftwareConfig: /home/stack/templates/nic-configs/swift-storage.yaml
+  OS::TripleO::CephStorage::Net::SoftwareConfig: /home/stack/templates/nic-configs/ceph-storage.yaml
+
+parameter_defaults:
+  DnsServers: ["171.70.168.183","173.37.137.85"]
+  ControlPlaneSubnetCidr: "24"
+  EC2MetadataIp: 192.168.126.1
+  ControlPlaneDefaultRoute: 192.168.126.1
+  ExternalInterfaceDefaultRoute: 172.23.208.1
+
+  ExternalNetCidr: '172.23.208.0/24'
+  ExternalAllocationPools: [{'start': '172.23.208.13', 'end': '172.23.208.20'}]
+
+  InternalApiNetCidr: '10.10.21.0/24'
+  InternalApiAllocationPools: [{'start': '10.10.21.10', 'end': '10.10.21.200'}]
+
+  StorageNetCidr: '10.10.23.0/24'
+  StorageAllocationPools: [{'start': '10.10.23.10', 'end': '10.10.23.200'}]
+
+  StorageMgmtNetCidr: '10.10.24.0/24'
+  StorageMgmtAllocationPools: [{'start': '10.10.24.10', 'end': '10.10.24.200'}]
+
+  TenantNetCidr: 10.10.22.0/24
+  TenantAllocationPools: [{'start': '10.10.22.10', 'end': '10.10.22.200'}]
+
+  InternalApiNetworkVlanID: 201
+  StorageNetworkVlanID: 202
+  StorageMgmtNetworkVlanID: 203
+  TenantNetworkVlanID: 204
+
+
+ # ExternalNetworkVlanID: 100
+ # Set to the router gateway on the external network
+ # Set to "br-ex" if using floating IPs on native VLAN on bridge br-ex
+  NeutronExternalNetworkBridge: br-ex
+  NeutronBridgeMappings: tenant:br-tenant,ctlplane:br-ctlplane
+  NeutronNetworkVLANRanges: tenant:2001:3000
+

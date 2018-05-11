@@ -56,6 +56,14 @@ parameters:
   ControlPlaneDefaultRoute: # Override this via parameter_defaults
     description: The default route of the control plane network.
     type: string
+  ExternalInterfaceDefaultRoute: # Not used by default in this template
+    default: '10.0.0.1'
+    description: The default route of the external network.
+    type: string
+  ManagementInterfaceDefaultRoute: # Commented out by default in this template
+    default: unset
+    description: The default route of the management network.
+    type: string
   DnsServers: # Override this via parameter_defaults
     default: []
     description: A list of DNS servers (2 max for some implementations) that will be added to resolv.conf.
@@ -74,7 +82,7 @@ resources:
           network_config:
             -
               type: ovs_bridge
-              name: br-prov
+              name: br-ctlplane
               use_dhcp: false
               dns_servers: {get_param: DnsServers}
               addresses:
@@ -94,47 +102,54 @@ resources:
               members:
                 -
                   type: interface
-                  # TODO: stop using jinja template here, pass in from heat
-                  name: {{ compute_provisioning_nic }}
+                  name: nic2
+                  #use_dhcp: false
                   # force the MAC address of the bridge to this interface
                   primary: true
                 -
                   type: vlan
                   vlan_id: {get_param: InternalApiNetworkVlanID}
                   addresses:
-                  -
-                    ip_netmask: {get_param: InternalApiIpSubnet}
+                    -
+                      ip_netmask: {get_param: InternalApiIpSubnet}
                 -
                   type: vlan
                   vlan_id: {get_param: StorageNetworkVlanID}
                   addresses:
-                  -
-                    ip_netmask: {get_param: StorageIpSubnet}
+                    -
+                      ip_netmask: {get_param: StorageIpSubnet}
                 -
                   type: vlan
                   vlan_id: {get_param: TenantNetworkVlanID}
                   addresses:
-                  -
-                    ip_netmask: {get_param: TenantIpSubnet}
+                    -
+                      ip_netmask: {get_param: TenantIpSubnet}
+            -
+              type: ovs_bridge
+              name: br-tenant
+              dns_servers: {get_param: DnsServers}
+              use_dhcp: false
+              addresses:
+              members:
+                -
+                  type: interface
+                  name: nic3
+                  use_dhcp: false
+                  # force the MAC address of the bridge to this interface
+                  primary: true
                 # Uncomment when including environments/network-management.yaml
+                # If setting default route on the Management interface, comment
+                # out the default route on the Control Plane.
                 #-
                 #  type: vlan
                 #  vlan_id: {get_param: ManagementNetworkVlanID}
                 #  addresses:
                 #    -
                 #      ip_netmask: {get_param: ManagementIpSubnet}
-            -
-              type: ovs_bridge
-              #name: {get_input: bridge_name}
-              name: br-tenant
-              use_dhcp: false
-              members:
-                -
-                  type: interface
-                  # TODO: stop using jinja template here, pass in from heat
-                  name: {{ compute_tenant_nic }}
-                  # force the MAC address of the bridge to this interface
-                  primary: true
+                #  routes:
+                #    -
+                #      default: true
+                #      next_hop: {get_param: ManagementInterfaceDefaultRoute}
 
 outputs:
   OS::stack_id:
