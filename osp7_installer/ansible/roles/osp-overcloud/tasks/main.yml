@@ -81,7 +81,7 @@
 
 - name: Install overcloud
   sudo_user: stack
-  shell: /home/stack/bin/deploy_overcloud.sh
+  shell: cd /home/stack && /home/stack/bin/deploy_overcloud.sh
   # up to 2 hours poll every minute
   async: 7200
   poll: 60
