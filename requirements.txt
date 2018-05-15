@@ -1,4 +1,4 @@
-ansible==2.5.2
+ansible==1.9.2
 ecdsa==0.13
 Jinja2==2.7.3
 lxml==3.4.4
