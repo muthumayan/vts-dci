@@ -1,8 +1,8 @@
 ---
 
-- name: Remove disk image files, if existing
-  file: dest=/home/stack/images/{{ item.name }} state=absent
-  with_items: "{{ disk_images }}"
+#- name: Remove disk image files, if existing
+#  file: dest=/home/stack/images/{{ item.name }} state=absent
+#  with_items: "{{ disk_images }}"
 
 - name: Make images dir
   sudo_user: stack
@@ -43,30 +43,30 @@
 - name: Install libguestfs-tools
   yum: name=libguestfs-tools
 
-- name: Copy image patch files (OSP10, nw-cisco 5.5.0)
-  template: src={{ item.template_file }} dest=/home/stack/images/{{ item.template_file }} owner=stack group=stack mode=0755
-  with_items:
-    - { template_file: 'nw-cisco-534411-DbDupl-MultiC-Brief.patch' }
-    - { template_file: 'nw-cisco-542877-diff_trunk.patch' }
-    - { template_file: 'diff_nexus_fix.patch' }
-    - { template_file: 'puppet-neutron.patch' }
-  when: osp_version == 10
+#- name: Copy image patch files (OSP10, nw-cisco 5.5.0)
+#  template: src={{ item.template_file }} dest=/home/stack/images/{{ item.template_file }} owner=stack group=stack mode=0755
+#  with_items:
+#    - { template_file: 'nw-cisco-534411-DbDupl-MultiC-Brief.patch' }
+#    - { template_file: 'nw-cisco-542877-diff_trunk.patch' }
+#    - { template_file: 'diff_nexus_fix.patch' }
+#    - { template_file: 'puppet-neutron.patch' }
+#  when: osp_version == 10
 
-- name: Copy tools files
-  copy:
-    src: /tmp/osp7-install-dci/osp7_installer/ansible/roles/osp-overcloud-image/templates/openstack-tools.tar.gz
-    dest: /home/stack/openstack-tools.tar.gz
-    owner: stack
-    group: stack
-    mode: 0755
+#- name: Copy tools files
+#  copy:
+#    src: /tmp/osp7-install-dci/osp7_installer/ansible/roles/osp-overcloud-image/templates/openstack-tools.tar.gz
+#    dest: /home/stack/openstack-tools.tar.gz
+#    owner: stack
+#    group: stack
+#    mode: 0755
 
-- name: Copy config.py
-  copy:
-    src: /tmp/osp7-install-dci/osp7_installer/ansible/roles/osp-overcloud-image/templates/config.py
-    dest: /home/stack/images/config.py
-    owner: stack
-    group: stack
-    mode: 0755
+#- name: Copy config.py
+#  copy:
+#    src: /tmp/osp7-install-dci/osp7_installer/ansible/roles/osp-overcloud-image/templates/config.py
+#    dest: /home/stack/images/config.py
+#    owner: stack
+#    group: stack
+#    mode: 0755
 
 
 - name: Lets try and sleep a bit
@@ -95,15 +95,15 @@
         --run-command "sed -i 's/PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config"
   when: not override_qcow and images_downloaded|success
 
-- name: Download os-net-config patch (nic name natural sort fix)
-  sudo_user: stack
-  shell: cd /tmp/ && wget http://memory.cisco.com/osp7/patches/utils.py
-  when: osp_version == 7
+#- name: Download os-net-config patch (nic name natural sort fix)
+#  sudo_user: stack
+#  shell: cd /tmp/ && wget http://memory.cisco.com/osp7/patches/utils.py
+#  when: osp_version == 7
 
-- name: Apply os-net-config patch (nic name natural sort fix)
-  sudo_user: stack
-  shell: virt-customize --selinux-relabel  -a /home/stack/images/overcloud-full.qcow2 --upload /tmp/utils.py:/usr/lib/python2.7/site-packages/os_net_config/utils.py
-  when: osp_version == 7
+#- name: Apply os-net-config patch (nic name natural sort fix)
+#  sudo_user: stack
+#  shell: virt-customize --selinux-relabel  -a /home/stack/images/overcloud-full.qcow2 --upload /tmp/utils.py:/usr/lib/python2.7/site-packages/os_net_config/utils.py
+#  when: osp_version == 7
 
 #- name: Override overcloud-full.qcow2
 #  sudo_user: stack
