@@ -88,9 +88,9 @@
 
 
 # TODO: We can do this directly from a single ansible run now (we will still have an extra hop to copy things to the nodes
-- name: Bld the ansible inventory file for overcloud
-  sudo_user: stack
-  shell: source /home/stack/stackrc && . /home/stack/openstack-tools/openstack/tripleo_bld_ansible_inv.sh /home/stack/ansible_hosts
+#- name: Bld the ansible inventory file for overcloud
+#  sudo_user: stack
+#  shell: source /home/stack/stackrc && . /home/stack/openstack-tools/openstack/tripleo_bld_ansible_inv.sh /home/stack/ansible_hosts
 
 # Removed for boxborough...Not needed
 #- name: install filebeat on the overcloud nodes
