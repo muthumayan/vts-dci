@@ -59,8 +59,8 @@
 #  shell: 'grep -q "proxy=" /etc/yum.conf || echo "proxy={{ proxy }}" >> /etc/yum.conf'
 #  when: use_yum_proxy
 
-#- name: Set yum timeout
-#  shell: 'grep -q "timeout=" /etc/yum.conf || echo "timeout={{ yum_timeout }}" >> /etc/yum.conf'
+- name: Set yum timeout
+  shell: 'grep -q "timeout=" /etc/yum.conf || echo "timeout={{ yum_timeout }}" >> /etc/yum.conf'
 
 - name: yum update (the world)
   yum: name=* state=latest update_cache=yes
