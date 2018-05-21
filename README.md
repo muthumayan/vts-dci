@@ -14,10 +14,10 @@ $ virtualenv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
 $ python setup.py develop
-$ osp7_bootstrap
+$ osp_bootstrap
 ```
 
-For help see: `osp7_bootstrap --help`
+For help see: `osp_bootstrap --help`
 
 Testbed Configuration
 =====================
@@ -40,11 +40,11 @@ All node types (controller, compute, ceph) need same NIC ordering due to use of 
 
 ### Switch and UCSM Configs
 1. undercloud PXE & provisioning/internal API 
-    1. native VLAN set to the VLAN to use for PXE for all the following switchports/UCSM port config (called “undercloud_vlan” in osp7_install.py  base.conf)
+    1. native VLAN set to the VLAN to use for PXE for all the following switchports/UCSM port config (called “undercloud_vlan” in osp_install.py  base.conf)
          1. switchport connected to undercloud_local_interface 
          1. switchports connected to all other nodes internal ports
               1. nic indicated by hypervisor_neutron_public_nic
-         1. allowed VLANs that need to be pre-configured on all internal nic switchports/UCSM config (see osp7_install base.conf):
+         1. allowed VLANs that need to be pre-configured on all internal nic switchports/UCSM config (see osp_install base.conf):
               1. testbed_vlan
               1. storage_vlan
               1. storage_mgmt_vlan
@@ -65,7 +65,7 @@ All node types (controller, compute, ceph) need same NIC ordering due to use of 
                         1. network_nexus_provider_vlan_auto_create = true
                         1. network_nexus_provider_vlan_auto_trunk = true
                    1. neutron net-create for external network should use VLAN type and segmentation ID of external vlan
-                        1. not currently done in osp7_install
+                        1. not currently done in osp_install
     
 ### Per-Testbed Settings (must set)
 1. director_node_*
@@ -79,7 +79,7 @@ All node types (controller, compute, ceph) need same NIC ordering due to use of 
     1. undercloud_fake_gateway_interface (if using hack_in_undercloud_gateway_ip [default] )
 1. VLANs
     1. overcloud_external_vlan
-        1. override all osp7_install.py  base.conf VLAN settings:
+        1. override all osp_install.py  base.conf VLAN settings:
     1. undercloud_vlan, etc
          * can use base.conf settings if you are the only OSPd testbed on a specific FI & switch*** (GG26 & BXB currently fall into this case)
 1. overcloud_floating_ip_*
@@ -103,13 +103,13 @@ By default bootstrap.conf is loaded from the current working directory (override
 See bootstrap-example.conf (which is an actual config so do NOT use these IPs)
 
 ## Default Config
-default config can be found in `osp7_installer/conf_common/base.conf`
+default config can be found in `osp_installer/conf_common/base.conf`
 
 There's an effort to converge as much of the config variables to the base.conf as possible
 in order to minimize the bootstrap.conf settings for the most common testbed environments.
 
 ## Lab Location Specific Config
-SJC and BXB common config can be found in the corresponding files in `osp7_installer/conf_common/[bxb|sj].conf`
+SJC and BXB common config can be found in the corresponding files in `osp_installer/conf_common/[bxb|sj].conf`
 
 Contents most likely to be:
 
@@ -216,7 +216,7 @@ For a specific testbed the external and floating IPs are needed to be setup.
 
 `overcloud_external_vlan`.
 For the L2 networking to be used for the overcloud public API, the `overcloud_external_vlan` is used when 
-osp7_bootstrap is to perform switch config (can be skipped if you preconfigure switches).  
+osp_bootstrap is to perform switch config (can be skipped if you preconfigure switches).  
 NOTE: *nic-configs/controller.yaml* doesn't include *ExternalNetworkVlanID* in any bridge members.
 
 **Overcloud Public/External IPs**
@@ -232,7 +232,7 @@ overcloud_external_gateway = 172.17.32.1
 </pre>
 
 ### Overcloud Floating IP net (default IPs for neutron's external network)
-The overcloud floating IP net settings are used when osp7_bootstrap creates the neutron external network & subnet.
+The overcloud floating IP net settings are used when osp_bootstrap creates the neutron external network & subnet.
 
 <pre>
 overcloud_floating_ip_cidr = 172.17.32.0/20
@@ -246,7 +246,7 @@ overcloud_floating_ip_network_gateway = 172.17.32.1
 ```network_nexus_vlan_range = datacentre:2010:2100```
 
 ### Configuration of the Nexus Switch
- **Limitation:**  Currently, osp7_bootstrap only supports configuring a single nexus switch per testbed. 
+ **Limitation:**  Currently, osp_bootstrap only supports configuring a single nexus switch per testbed. 
  
  **How-to skip:**  In your testbed's bootstrap.conf, add the following at the end:
  
@@ -318,7 +318,7 @@ ERROR: 2015-12-03 13:30:31,513 -- Failed running command ['dib-run-parts', u'/tm
 </pre>
      1. Resolve by:
           1. rebooting the undercloud controller node manually and then
-          2. rerun osp7_bootstrap deploy with `-p cobbler.skip=true`
+          2. rerun osp_bootstrap deploy with `-p cobbler.skip=true`
 
 TODO
 -----
@@ -327,4 +327,4 @@ Create example that stores config outside this repo, other then an example confi
 Ideas:
   * move lab default configs to different project, and include that as a pip dependency,
   * move actual config to a different git repo, which basically just holds the config and a shell python project, to
-include this project and the default lab config project.# osp7-install-dci
+include this project and the default lab config project.# osp-install-dci
