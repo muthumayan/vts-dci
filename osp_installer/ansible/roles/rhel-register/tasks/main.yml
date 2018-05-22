@@ -29,5 +29,5 @@
 
 - name: Set RHEL Channels
 #  environment: proxy_env
-  shell: subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-optional-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-beta-rpms --enable==rhel-7-server-optional-beta-rpms --enable=rhel-7-server-extras-beta-rpms
+  shell: subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-optional-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-beta-rpms --enable==rhel-7-server-optional-beta-rpms --enable=rhel-7-server-extras-beta-rpms --enable=RH7-RHOS-10.0 --enable=rhel-7-server-cert-rpms --enable=rhel-7-server-nfv-rpms --enable=rhel-7-server-openstack-10-devtools-rpms --enable=rhel-7-server-openstack-10-rpms --enable=rhel-7-server-rh-common-rpms --enable=rhel-7-server-rpms --enable=rhel-ha-for-rhel-7-server-rpms
   when: ansible_distribution == 'RedHat'
