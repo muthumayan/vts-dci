@@ -59,8 +59,7 @@
 # proxy.. the dci repo is actually on the jumphost; so adding a no_proxy 
 # to the repo.
 - name: Edit dci_repo to bypass proxy
-  shell: >
-    echo "proxy: _none_" >> /etc/yum.repos.d/dci_repo.repo;
+  shell: echo "proxy = _none_" >> /etc/yum.repos.d/dci_repo.repo;
   when: osp_use_partner_repo
 
 # set proxy via kickstart
