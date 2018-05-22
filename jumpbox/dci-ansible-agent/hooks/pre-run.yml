@@ -1,0 +1,27 @@
+- name: check for dependencies
+  yum:
+    name: '{{item}}'
+    state: present
+  with_items:
+    - git
+    - python-virtualenv
+    - gcc
+    - libxslt-devel
+    - libxml2-devel
+  become: true
+
+- name: check if install already exists
+  shell: |
+    /bin/rm -rf /tmp/install-vts-dci
+
+- name: Install Director RHEL image from Cobbler
+  shell: |
+      git clone https://github.com/muthumayan/vts-dci.git /tmp/install-vts-dci
+      cd /tmp/install-vts-dci
+      git describe --always
+      virtualenv .venv
+      . .venv/bin/activate
+      pip install -r requirements.txt
+      python setup.py develop
+
+# osp7_bootstrap --osp_version {{osp_version}} --config artifacts/bxb_osp.conf --action=directorInstall --lab_location=bxb
