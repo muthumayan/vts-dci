@@ -54,6 +54,14 @@
   with_items: "{{ yum_repos }}"
   when: osp_use_partner_repo
 
+# Hack to workaround director trying to reach repo(s) during undercloud build
+# and then hanging for long time, because it tries to reach dci_repo via 
+# proxy.. the dci repo is actually on the jumphost; so adding a no_proxy 
+# to the repo.
+- name: Edit dci_repo to bypass proxy
+  shell: echo "proxy = _none_" >> /etc/yum.repos.d/dci_repo.repo;
+  when: osp_use_partner_repo
+
 # set proxy via kickstart
 #- name: Set yum proxy
 #  shell: 'grep -q "proxy=" /etc/yum.conf || echo "proxy={{ proxy }}" >> /etc/yum.conf'
@@ -68,11 +76,11 @@
 - name: yum update the kernel
   yum: name=kernel state=latest update_cache=yes
 
-#- name: Install chrony
-#  yum: name=chrony
-#
-#- name: Enable chronyd service
-#  service: name=chronyd state=started enabled=yes
+- name: Install chrony
+  yum: name=chrony
+
+- name: Enable chronyd service
+  service: name=chronyd state=started enabled=yes
 
 # command line client name change between osp 7 and 8
 #- name: Install python-rdomanager-oscplugin

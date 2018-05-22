@@ -36,7 +36,7 @@ class Config(object):
         location_conf = os.path.join(common_conf_dir, location + '.conf')
         base_conf = os.path.join(common_conf_dir, 'base.conf')
         osp_version_conf = os.path.join(common_conf_dir, 'osp{0}.conf'.format(osp_version))
-        user_conf = os.path.join(os.path.expanduser('~'), '.osp7-installer', 'osp7.conf')
+        user_conf = os.path.join(os.path.expanduser('~'), '.osp-installer', 'osp7.conf')
 
         config_parser = ConfigParser.SafeConfigParser()
         config_files_to_read = [base_conf, osp_version_conf, location_conf, user_conf, config_file]

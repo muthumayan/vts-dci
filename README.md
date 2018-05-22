@@ -109,7 +109,7 @@ $ virtualenv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
 $ python setup.py develop
-$ osp7_bootstrap <optional parameters> <type of installation>
+$ osp_bootstrap <optional parameters> <type of installation>
 
 For help see: `osp_bootstrap --help`
 

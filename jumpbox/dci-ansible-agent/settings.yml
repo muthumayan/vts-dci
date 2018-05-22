@@ -1,0 +1,96 @@
+dci_topic: "OSP10"
+# The public IP address of the jumpbox that will be exposed to the
+# OpenStack cluster
+dci_base_ip: "172.23.247.62"
+# The location of the HTT mirror
+dci_baseurl: "http://{{ dci_base_ip }}"
+
+undercloud_ip: "172.23.208.12"
+undercloud_password: "cisco123"
+dci_mirror_location: "/var/www/html"
+dci_config_dir: "/etc/dci-ansible-agent"
+dci_cache_dir: "/var/lib/dci-ansible-agent"
+dci_teardown_on_failure: True
+
+rhel_username: "CVG_ENG_ssalunkh"
+rhel_password: "cisco123"
+pool_id: "8a85f9815c8c8108015c8ccc74191ad3"
+rhel_pool: "8a85f9815c8c8108015c8ccc74191ad3"
+
+# dci_metadata: Metadata to attach to a job [optional]
+#
+# dict of key/pair values one might want to attach to a job
+#
+dci_metadata: {}
+
+#
+dci_login: "{{ lookup('env', 'DCI_LOGIN') }}"
+dci_password: "{{ lookup('env', 'DCI_PASSWORD') }}"
+dci-client-id: "{{ lookup('env', 'DCI_CLIENT_ID') }}"
+dci-api-secret: "{{ lookup('env', 'DCI_API_SECRET') }}"
+
+director_node_hostname: "tb44-director.cisco.com"
+osp_version: "10"
+testbed_cfg: "artifacts/vts_osp.conf"
+
+
+#######################################
+## Settings for Tempest              ##
+##  adjust to match your deployment  ##
+#######################################
+
+#
+# Neutron settings for the public network
+# Some of this settings may require to be adapted to your environment
+# These values are the default values from Tempest, added here for clarity
+#
+public_net_name: public
+public_network_type: flat
+#public_physical_network: datacentre
+public_physical_network: external
+public_segmentation_id: ''
+# You should adjust this one to your floating IP network CIDR
+#floating_ip_cidr: 192.168.24.0/24
+
+# The following defaults should be changed if e.g. the public API is on the same network, to avoid collisions
+#public_net_pool_start: "{{ floating_ip_cidr | nthhost(100) }}"
+#public_net_pool_end: "{{ floating_ip_cidr | nthhost(120) }}"
+#public_net_gateway: "{{ floating_ip_cidr | nthhost(1) }}"
+
+# Overcloud neutron public network settings
+floating_ip_cidr: 20.0.0.0/24
+public_net_pool_start: 20.0.0.10
+public_net_pool_end: 20.0.0.200
+public_net_gateway: 20.0.0.1
+
+#
+# Change this to a higher or lower value if you encounter some concurrency issues
+#
+tempest_workers: 6
+
+#
+# Extra confituration for Tempest
+#
+
+tempest_extra_config:
+  # Set this to the name of the public network you want to be created
+  network.floating_network_name: public
+  # Is the 'backup' feature for cinder/volumes enabled on your deployment ?
+  volume-feature-enabled.backup: False
+  # Is ceilometer available on you deployment ? Should be False if using gnocchi
+  # which is the default since OSP10
+  service_available.ceilometer: False
+  # Is Sahara deployed ?
+  service_available.sahara: False
+  # Parameters required for heat-plugin
+  heat_plugin.region: regionOne
+  heat_plugin.minimal_image_ref: cirros-0.3.5-x86_64-disk.img
+  heat_plugin.image_ref: cirros-0.3.5-x86_64-disk.img
+  heat_plugin.minimal_instance_type: m1.micro
+  heat_plugin.instance_type: m1.micro
+  heat_plugin.admin_username: $OS_USERNAME
+  heat_plugin.admin_password: $OS_PASSWORD
+  heat_plugin.username: demo
+  heat_plugin.tenant_name: demo
+  heat_plugin.password: secrete
+  heat_plugin.auth_url: $OS_AUTH_URL

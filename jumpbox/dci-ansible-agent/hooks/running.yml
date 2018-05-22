@@ -1,0 +1,41 @@
+- name: check for dependencies
+  yum:
+    name: '{{item}}'
+    state: present
+  with_items:
+    - git
+    - python-virtualenv
+    - gcc
+    - libxslt-devel
+    - libxml++-devel
+    - libxml2-devel
+  become: true
+
+- name: check if install already exists
+  file:
+    path: /tmp/install-vts-dci
+    state: absent
+
+- name: Install Undercloud
+  shell: |
+      git clone https://github.com/muthumayan/vts-dci.git /tmp/install-vts-dci
+      cd /tmp/install-vts-dci
+      git describe --always
+      virtualenv .venv
+      . .venv/bin/activate
+      pip install -r requirements.txt
+      python setup.py develop
+      osp_bootstrap --osp_version {{osp_version}} --config {{testbed_cfg}} --action=ucloudDeploy 
+
+
+- name: Install Overcloud
+  shell: |
+      git clone https://github.com/muthumayan/vts-dci.git /tmp/install-vts-dci
+      cd /tmp/install-vts-dci
+      git describe --always
+      virtualenv .venv
+      . .venv/bin/activate
+      pip install --upgrade pip
+      pip install -r requirements.txt
+      python setup.py develop
+      osp_bootstrap --osp_version {{osp_version}} --config {{testbed_cfg}} --action=ocloudDeploy 

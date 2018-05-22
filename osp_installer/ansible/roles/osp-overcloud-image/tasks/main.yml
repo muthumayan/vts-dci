@@ -54,7 +54,7 @@
 
 #- name: Copy tools files
 #  copy:
-#    src: /tmp/osp7-install-dci/osp7_installer/ansible/roles/osp-overcloud-image/templates/openstack-tools.tar.gz
+#    src: /tmp/osp7-install-dci/osp_installer/ansible/roles/osp-overcloud-image/templates/openstack-tools.tar.gz
 #    dest: /home/stack/openstack-tools.tar.gz
 #    owner: stack
 #    group: stack
@@ -62,7 +62,7 @@
 
 #- name: Copy config.py
 #  copy:
-#    src: /tmp/osp7-install-dci/osp7_installer/ansible/roles/osp-overcloud-image/templates/config.py
+#    src: /tmp/osp7-install-dci/osp_installer/ansible/roles/osp-overcloud-image/templates/config.py
 #    dest: /home/stack/images/config.py
 #    owner: stack
 #    group: stack
