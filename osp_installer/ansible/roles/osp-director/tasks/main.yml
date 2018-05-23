@@ -46,8 +46,7 @@
   shell: >
     subscription-manager register --username={{ rhel_username }} --password={{ rhel_password }} --force;
     subscription-manager attach --pool={{ rhel_pool }};
-    subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-optional-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-beta-rpms --enable=rhel-7-server-optional-beta-rpms --enable=rhel-7-server-extras-beta-rpms --enable=rhel-7-server-rh-common-rpms --enable=rhel-7-server-rpms --enable=rhel-ha-for-rhel-7-server-rpms;
-
+    subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-optional-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-beta-rpms --enable=rhel-7-server-optional-beta-rpms --enable=rhel-7-server-extras-beta-rpms --enable=rhel-7-server-rh-common-rpms --enable=rhel-7-server-rpms --enable=rhel-ha-for-rhel-7-server-rpms --disable="*";
 
 #
 # Some of the repos cannot be enabled - check on this. 
