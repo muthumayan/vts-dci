@@ -167,3 +167,6 @@ TODO
 1. Create a directory in git to store contents of the hooks - for VTS
 2. Create a copy of the network-environment.yaml and network-isolation.yaml (if required) in git.
 3. Remove unncessary repetition of variable in both .conf files and overcloud configuration files. Just copy them over.
+3. Use the latest overcloud installation procedure provided in 2.6.1 to insert ML2 plugin into the overcloud controllers.
+4. Connect to VTC. 
+5. Ensure that VTC can manage the ToR for setting up VM traffic.
