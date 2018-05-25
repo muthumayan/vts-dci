@@ -1,6 +1,5 @@
 
-Distributed CI setup and OSP Installer
-======================================
+#Distributed CI setup and OSP Installer
 
 ##Purpose
 
@@ -93,8 +92,7 @@ The CI jobs tranistion through several states in carrying out the integration te
 
 
 
-OSP bootstrap
--------------
+##OSP bootstrap
 
 This is the python wrapper script invoked by the DCI 'hooks' to trigger creation of the undercloud and overcloud. The script runs in 
 a virtual environment. The 'hook' callbacks need to do the following to invoke the appropriate portion of undercloud/overcloud installation.
@@ -111,13 +109,11 @@ $ osp_bootstrap <optional parameters> <type of installation>
 
 For help see: `osp_bootstrap --help`
 
-Testbed Configuration
-=====================
+##Testbed Configuration
 
-[DCI Lab setup](images/DCI-setup.png)
+![DCI Lab setup](https://github.com/muthumayan/vts-dci/images/DCI-setup.png)
 
-Physical Setup
---------------
+###Physical Setup
 All node types (controller, compute, ceph) need same NIC ordering due to use of per-node interface templates.
 
 Each node has multiple NICs - NIC1, NIC2 and NIC3.
@@ -162,8 +158,7 @@ Each node has multiple NICs - NIC1, NIC2 and NIC3.
 
 
 
-TODO
------
+##TODO
 1. Create a directory in git to store contents of the hooks - for VTS
 2. Create a copy of the network-environment.yaml and network-isolation.yaml (if required) in git.
 3. Remove unncessary repetition of variable in both .conf files and overcloud configuration files. Just copy them over.
