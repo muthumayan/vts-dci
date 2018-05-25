@@ -1,7 +1,7 @@
 
-#Distributed CI setup and OSP Installer
+# Distributed CI setup and OSP Installer
 
-##Purpose
+## Purpose
 
 The distributed CI system is a framework created by Redhat to enable partners to validate frequent preview releases of Openstack on a Partner Lab setup.
 
@@ -10,7 +10,7 @@ After the physical hardware is setup a combination of Ansible playbooks, Python 
 After the overcloud is installed, the CI system also initiates a series of tempest tests on the overcloud. The test results are then uploaded to a Redhat CI server where the results and logs of the test are archived. All debug logs pertaining to various stages of undercloud and overcloud setup are also archived in the CI system and accessible via the CI portal.
 
 
-##Hardware components of the DCI setup
+## Hardware components of the DCI setup
 
 - DCI jumpbox : The 'jumpbox' is nothing more that a VM on which a DCI agent would be installed. The VM needs to be able to have an IP address in the lab network and should be able to reach both the OSP director node (within lab) and external world (via. lab proxies).
 
@@ -19,7 +19,7 @@ After the overcloud is installed, the CI system also initiates a series of tempe
 - Controllers and Computes: These are the nodes on which the OpenStack overcloud is installed. Each controller/compute node maps to a physical UCS server in the VTS lab. Each node has one NIC for the CIMC, one for the OpenStack API communication and PXE boot and one for the tenant traffic. The Controller and Compute nodes do NOT have 'management' IP addresses in the lab network. However, they can access both the external world and the lab network using director as the gateway. 
 
 
-##Software components
+## Software components
 
 - DCI agent: The agent is the entity that pulls in latest set of software for a given OpenStack version. It then 'orchestrates' the install of the director node, buildup of the undercloud and overcloud using 'hooks'.  The agent uses Ansible playbooks to orchestrate the bring up of the undercloud, overcloud and runnign the tempest test suite. Once the DCI jumpbox VM is setup with (RHEL OS), follow the steps mentioned in :
   https://doc.distributed-ci.io/dci-ansible-agent/ to install and setup the DCI agent.
@@ -56,7 +56,7 @@ As for the generic install requirements for the DCI agent, please refer RH docum
   should be sourced prior to starting any 'integration' tests.
 
 
-##Starting a CI job
+## Starting a CI job
 
 The CI activity can only be initiated on the jumphost (by any user logged in to the jumphost). There is a systemd service created for starting the 
 CI job. 
@@ -80,7 +80,7 @@ source /path/to/remoteci.sh && systemctl start dci-ansible-agent
 
 
  
-##State of CI jobs
+## State of CI jobs
 
 The CI jobs tranistion through several states in carrying out the integration tests. In brief:
  
@@ -92,7 +92,7 @@ The CI jobs tranistion through several states in carrying out the integration te
 
 
 
-##OSP bootstrap
+## OSP bootstrap
 
 This is the python wrapper script invoked by the DCI 'hooks' to trigger creation of the undercloud and overcloud. The script runs in 
 a virtual environment. The 'hook' callbacks need to do the following to invoke the appropriate portion of undercloud/overcloud installation.
@@ -109,11 +109,11 @@ $ osp_bootstrap <optional parameters> <type of installation>
 
 For help see: `osp_bootstrap --help`
 
-##Testbed Configuration
+## Testbed Configuration
 
-![DCI Lab setup](https://github.com/muthumayan/vts-dci/images/DCI-setup.png)
+![DCI Lab setup](images/DCI-setup.png)
 
-###Physical Setup
+### Physical Setup
 All node types (controller, compute, ceph) need same NIC ordering due to use of per-node interface templates.
 
 Each node has multiple NICs - NIC1, NIC2 and NIC3.
@@ -158,7 +158,7 @@ Each node has multiple NICs - NIC1, NIC2 and NIC3.
 
 
 
-##TODO
+## TODO
 1. Create a directory in git to store contents of the hooks - for VTS
 2. Create a copy of the network-environment.yaml and network-isolation.yaml (if required) in git.
 3. Remove unncessary repetition of variable in both .conf files and overcloud configuration files. Just copy them over.
